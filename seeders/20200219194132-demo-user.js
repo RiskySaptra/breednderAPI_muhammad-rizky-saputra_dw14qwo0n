@@ -1,25 +1,26 @@
-'use strict';
-
+"use strict";
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+const myPlaintextPassword = "lovespiderman";
 module.exports = {
-  up: (queryInterface, Sequelize) => {   
-      return queryInterface.bulkInsert('users', [{
-        name:'Jhon Doe',
-        email: 'John Doe@test.com',
-        password: '12345',
-        phone:'082197965542',
-        address:'Jl.loks',    
-        createdAt:new Date(),
-        updatedAt:new Date()
-      },
-      {
-        name:'Spiderman',
-        email: 'spiderman@gmail.com',
-        password: 'lovespiderman',
-        phone:'082197923542',
-        address:'Jl.New York',    
-        createdAt:new Date(),
-        updatedAt:new Date()
-      }], {});
+  up: async (queryInterface, Sequelize) => {   
+      try {
+        const salt = await bcrypt.genSalt(saltRounds);
+        const hash = await bcrypt.hash(myPlaintextPassword, salt);
+        return queryInterface.bulkInsert('users', [
+          {
+            breeder:'Spiderman',
+            email: 'spiderman@gmail.com',
+            password: 'lovespiderman',
+            phone:hash,
+            address:'Jl.New York',    
+            createdAt:new Date(),
+            updatedAt:new Date()
+          }], {});
+      } catch (error) {
+        
+      }
+        
   },
 
   down: (queryInterface, Sequelize) => {
