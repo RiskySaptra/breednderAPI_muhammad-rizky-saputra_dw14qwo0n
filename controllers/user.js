@@ -18,11 +18,11 @@ exports.login = async (req, res) => {
     }else{
       res.status(401).send({ message: "Invalid email" });
     }
-    console.log(user)
   } catch (err) {
     console.log(err);
   }
 };
+
 exports.register = async (req, res) => {
   try {
     
