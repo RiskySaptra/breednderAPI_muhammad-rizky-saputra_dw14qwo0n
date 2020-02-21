@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const models = require("../models");
 const User = models.user;
 const Pet = models.pet;
-const Species = models.species;
 
 exports.login = async (req, res) => {
   try {
@@ -29,6 +28,9 @@ exports.register = async (req, res) => {
     const password = await bcrypt.hashSync(req.body.password, 10);
     const { breeder, email, phone, address, pet } = req.body; // front end
     const { name, gender } = pet;
+    const species_id = pet.species.id;
+    const age_id = pet.age.id;
+    
 
     const check = await User.findOne({ where: { email } });
     if (check) {
@@ -44,7 +46,10 @@ exports.register = async (req, res) => {
       const userId = user.dataValues.id;
       const petReg = await Pet.create({
         name,
-        gender
+        gender,
+        species_id,
+        age_id,
+        breeder_id : userId
       });
       if (user && petReg) {
         const token = jwt.sign({ user_id: user.id }, process.env.SECRET_KEY);
