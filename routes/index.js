@@ -17,7 +17,6 @@ router.get("/users", UserController. index);
 router.get("/user/:id", UserController. show);
 router.put("/user/:id", auth,UserController. update);
 router.delete("/user/:id", auth,UserController. destroy);
-
 // Species
 router.post("/species",SpeciesController. store);
 router.get("/species",SpeciesController. show);
