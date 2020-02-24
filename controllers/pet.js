@@ -2,7 +2,6 @@ const models = require("../models");
 const Pet = models.pet;
 const User = models.user;
 const Species = models.species;
-const Age = models.age;
 
 exports.index = async (req, res) => {
   try {
@@ -11,20 +10,15 @@ exports.index = async (req, res) => {
         {
           model: User,
           as: "user",
-          attributes: ["breeder", "address", "phone"]
+          attributes: ["id","name", "address", "phone"]
         },
         {
           model: Species,
           as: "species",
-          attributes: ["name"]
-        },
-        {
-          model: Age,
-          as: "age",
-          attributes: ["name"]
+          attributes: ["id","name"]
         }
       ],
-      attributes: { exclude: ["breeder_id", "species_id"] }
+      attributes: { exclude: ["user_id", "species_id"] }
     });
     res.status(200).send({ message: "success", data: pet });
   } catch (err) {

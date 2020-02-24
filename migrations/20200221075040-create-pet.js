@@ -12,16 +12,24 @@ module.exports = {
         type: Sequelize.STRING
       },
       gender: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM,
+        values:["Male","Female"]
       },
       species_id: {
         type: Sequelize.INTEGER
       },
-      age_id: {
+      age: {
+        type: Sequelize.ENUM,
+        values:["Adult","Teen"]
+      },
+      user_id: {
         type: Sequelize.INTEGER
       },
-      breeder_id: {
-        type: Sequelize.INTEGER
+      about: {
+        type: Sequelize.STRING
+      },
+      photo: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

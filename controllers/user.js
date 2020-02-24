@@ -4,6 +4,49 @@ const models = require("../models");
 const User = models.user;
 const Pet = models.pet;
 
+
+exports.index = async (req, res) => {
+  try {
+    const user = await User.findAll({attributes: { exclude: ["password", "role", "status"] }});
+    if (user && user.length > 0) { // Array Species
+      res.status(401).json({success: true,message: "Load User success",data: user});
+    } else {
+      res.status(401).json({success: false,message: "User Table Empty",data: {}});
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(401).json({success: false,message: "User Table Empty",data: {}
+    });
+  }
+};
+exports.show = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findOne({
+      where: { id },
+      attributes: { exclude: ["password", "role", "status"] }
+    });
+    if (user) {
+      res.json({
+        success: true,
+        message: "Load user success",
+        data: user
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "User does not exist!"
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({
+      success: false,
+      message: "Load user fail",
+      data: {}
+    });
+  }
+};
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body; // front end
@@ -25,32 +68,27 @@ exports.login = async (req, res) => {
 };
 exports.register = async (req, res) => {
   try {
-    const password = await bcrypt.hashSync(req.body.password, 10);
-    const { breeder, email, phone, address, pet } = req.body; // front end
-    const { name, gender } = pet;
-    const species_id = pet.species.id;
-    const age_id = pet.age.id;
-    
-
+    const { email } = req.body;
+    const { pet } = req.body;
+    const hash = await bcrypt.hashSync(req.body.password, 10);
+    req.body.password = hash;
     const check = await User.findOne({ where: { email } });
     if (check) {
       res.status(401).send({ status: false, message: "Email Already Taken" });
     } else {
-      const user = await User.create({
-        breeder,
-        email,
-        password,
-        phone,
-        address
-      });
-      const userId = user.dataValues.id;
-      const petReg = await Pet.create({
-        name,
-        gender,
-        species_id,
-        age_id,
-        breeder_id : userId
-      });
+      const user = await User.create(req.body);
+      const data_pet = {
+        user_id: user.id,
+        name: pet.name,
+        gender: pet.gender,
+        species_id: pet.species,
+        age: pet.age,
+        about: pet.about,
+        photo: pet.photo
+      };
+      // console.log(pet);
+      
+      const petReg = await Pet.create(data_pet);
       if (user && petReg) {
         const token = jwt.sign({ user_id: user.id }, process.env.SECRET_KEY);
         res
@@ -62,5 +100,81 @@ exports.register = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
+  }
+};
+exports.update = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const check_user = await User.findOne({ where: { id } });
+    if (check_user) {
+      if (check_user.id === req.user) {
+        const userq = await User.update(req.body, {
+          where: { id }
+        });
+        if (userq.length > 0 && userq[0]) {
+          const user = await User.findOne({
+            where: { id },
+            attributes: { exclude: ["password", "level", "email", "id"] }
+          });
+
+          res.json({
+            success: true,
+            message: "Update User success",
+            data: user
+          });
+        } else {
+          res.status(401).json({
+            success: false,
+            message: "Cant update because user does not exist",
+            data: {}
+          });
+        }
+      } else {
+        res.status(401).json({
+          success: false,
+          message: "Not authorized",
+          data: {}
+        });
+      }
+    } else {
+      res.status(401).json({
+        success: false,
+        message: "Not authorized",
+        data: {}
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(401).json({
+      success: false,
+      message: "update User fail",
+      data: {}
+    });
+  }
+};
+exports.destroy = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.destroy({ where: { id } });
+    if (user) {
+      res.json({
+        success: true,
+        message: "delete user success",
+        data: { id }
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Cant delete because user does not exist",
+        data: {}
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({
+      success: false,
+      message: "delete user fail",
+      data: {}
+    });
   }
 };

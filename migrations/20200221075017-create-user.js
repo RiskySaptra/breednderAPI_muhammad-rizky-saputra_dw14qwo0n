@@ -8,8 +8,18 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      breeder: {
+      name: {
         type: Sequelize.STRING
+      },
+      role:{
+        type: Sequelize.ENUM,
+        values:["User","Admin"],
+        defaultValue: "User"
+      },
+      status:{
+        type: Sequelize.ENUM,
+        values:["Free","Premium"],
+        defaultValue: "Free"
       },
       email: {
         type: Sequelize.STRING
