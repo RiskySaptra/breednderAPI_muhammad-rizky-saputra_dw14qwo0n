@@ -2,10 +2,10 @@
   "name": "breednderapi_muhammad-rizky-saputra_dw14qwo0n",
   "version": "1.0.0",
   "description": "breednderAPI_muhammad-rizky-saputra_dw14qwo0n",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -19,14 +19,17 @@
   "homepage": "https://github.com/RiskySaptra/breednderAPI_muhammad-rizky-saputra_dw14qwo0n#readme",
   "dependencies": {
     "bcrypt": "^3.0.8",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-jwt": "^5.3.1",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.1.0",
+    "pg": "^7.18.2",
     "sequelize": "^5.21.4"
   },
   "devDependencies": {
+    "nodemon": "^2.0.2",
     "sequelize-cli": "^5.5.1"
   }
 }
