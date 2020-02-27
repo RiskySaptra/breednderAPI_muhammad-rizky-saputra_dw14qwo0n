@@ -71,25 +71,66 @@ exports.show = async (req, res) => {
     });
   }
 };
+// exports.login = async (req, res) => {
+//   try {
+//     const { email, password } = req.body; // front end
+//     const user = await User.findOne({ where: { email } });
+//     if (user) {
+//       const result = await bcrypt.compare(password, user.password);
+//       if (result) {
+//         const token = jwt.sign({ user_id: user.id }, process.env.SECRET_KEY);
+//         res.send({ email, token });
+//       } else {
+//         res.status(401).send({ message: "Invalid password" });
+//       }
+//     }else{
+//       res.status(401).send({ message: "Invalid email" });
+//     }
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body; // front end
+    const { email, password } = req.body;
     const user = await User.findOne({ where: { email } });
     if (user) {
-      const result = await bcrypt.compare(password, user.password);
-      if (result) {
+      const match = await bcrypt.compare(password, user.password);
+      if (match) {
         const token = jwt.sign({ user_id: user.id }, process.env.SECRET_KEY);
-        res.send({ email, token });
+        res.json({
+          success: true,
+          message: "Login success",
+          data: { id: user.id, email: user.email, token }
+        });
       } else {
-        res.status(401).send({ message: "Invalid password" });
+        //invalid email
+
+        res.status(401).json({
+          success: false,
+          message: "Invalid login credentials. please try again",
+          data: {}
+        });
       }
-    }else{
-      res.status(401).send({ message: "Invalid email" });
+    } else {
+      //invalid password
+      res.status(401).json({
+        success: false,
+        message: "Invalid login credentials. please try again",
+        data: {}
+      });
     }
   } catch (err) {
     console.log(err);
+    res.status(401).json({
+      success: false,
+      message: "Login failed, something went wrong",
+      data: {}
+    });
   }
 };
+
 exports.register = async (req, res) => {
   try {
     const { email } = req.body;
