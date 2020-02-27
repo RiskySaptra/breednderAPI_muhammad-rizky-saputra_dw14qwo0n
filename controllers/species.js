@@ -21,11 +21,7 @@ exports.store = async (req, res) => {
 exports.show = async (req, res) => {
     try {
       const species = await Species.findAll();
-      if (species && species.length > 0) { // Array Species
-        res.status(401).json({success: true,message: "Load species success",data: species});
-      } else {
-        res.status(401).json({success: false,message: "Species Table Empty",data: {}});
-      }
+      res.status(200).json({message: "Load species success",data: species});     
     } catch (err) {
       console.log(err);
       res.status(401).json({success: false,message: "Species Table Empty",data: {}

@@ -5,6 +5,8 @@ const Species = models.species;
 
 exports.index = async (req, res) => {
   try {
+    console.log("sdfsdfs");
+    
     const pet = await Pet.findAll({
       include: [
         {
