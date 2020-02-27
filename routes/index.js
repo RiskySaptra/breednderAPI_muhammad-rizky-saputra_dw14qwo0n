@@ -12,6 +12,7 @@ const PetController = require("../controllers/pet");
 // Auth Login
 router.post("/login", login);
 router.post("/register", register);
+router.get("/autoauth", auth, autoAuth);
 // Users
 router.get("/users", UserController. index);
 router.get("/user/:id", UserController. show);

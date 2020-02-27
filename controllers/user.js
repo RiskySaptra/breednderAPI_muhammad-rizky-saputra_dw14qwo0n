@@ -4,6 +4,30 @@ const models = require("../models");
 const User = models.user;
 const Pet = models.pet;
 
+exports.autoAuth = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { id: req.user } });
+    if (user) {
+      res.json({
+        success: true,
+        message: "Login success",
+        data: { id: user.id, email: user.email, token: req.token }
+      });
+    } else {
+      res.status(401).json({
+        success: false,
+        message: "Invalid login credentials. Please relogin",
+        data: {}
+      });
+    }
+  } catch (error) {
+    res.status(401).json({
+      success: false,
+      message: "Invalid login credentials. please relogin",
+      data: {}
+    });
+  }
+};
 
 exports.index = async (req, res) => {
   try {
