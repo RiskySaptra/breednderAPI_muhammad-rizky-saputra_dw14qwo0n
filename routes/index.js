@@ -5,6 +5,7 @@ const { auth } = require("../middleware/auth");
 
 const { login } = require("../controllers/user");
 const { register } = require("../controllers/user");
+const { autoAuth } = require("../controllers/user");
 
 const UserController = require("../controllers/user");
 const SpeciesController = require("../controllers/species");

@@ -14,6 +14,14 @@ app.use(cors());
 
 app.use("/api/v1", routes);
 
+app.use((req, res, next) => {
+	const success = false;
+	const status = 404;
+	const message = "Mau Kemana bro!";
+	const data = {};
+	res.status(status).json({ success, message, data   });
+  });
+
 app.listen(port, () => {
 	console.log("Server ON");
 });
