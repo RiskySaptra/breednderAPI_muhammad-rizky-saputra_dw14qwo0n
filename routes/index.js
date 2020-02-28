@@ -25,7 +25,7 @@ router.post("/species",SpeciesController. store);
 router.get("/species",SpeciesController. show);
 // Pets
 router.get("/pets", PetController.index);
-router.get("/pets/user/:id", auth,PetController.Uindex);
+router.get("/pets/user/:id", PetController.Uindex);
 router.get("/pet/:id", PetController.show);
 router.post("/pet", auth, PetController.store);
 router.put("/pet/:id", auth, PetController.update);
