@@ -137,25 +137,7 @@ exports.show = async (req, res) => {
   try {
     const { id } = req.params;
     const pet = await Pet.findOne({
-      where: { id },
-      include: [
-        {
-          model: User,
-          as: "user",
-          attributes: ["breeder", "address", "phone"]
-        },
-        {
-          model: Species,
-          as: "species",
-          attributes: ["name"]
-        },
-        {
-          model: Age,
-          as: "age",
-          attributes: ["name"]
-        }
-      ],
-      attributes: { exclude: ["breeder_id", "species_id","age_id"] }
+      where: { id }
     });
     res.status(200).send({ status: true, message: "success", data: pet });
   } catch (err) {
