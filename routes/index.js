@@ -10,6 +10,7 @@ const { autoAuth } = require("../controllers/user");
 const UserController = require("../controllers/user");
 const SpeciesController = require("../controllers/species");
 const PetController = require("../controllers/pet");
+
 // Auth Login
 router.post("/login", login);
 router.post("/register", register);
@@ -24,6 +25,7 @@ router.post("/species",SpeciesController. store);
 router.get("/species",SpeciesController. show);
 // Pets
 router.get("/pets", PetController.index);
+router.get("/pets/user/:id", auth,PetController.Uindex);
 router.get("/pet/:id", PetController.show);
 router.post("/pet", auth, PetController.store);
 router.put("/pet/:id", auth, PetController.update);

@@ -144,3 +144,15 @@ exports.show = async (req, res) => {
     console.log(err);
   }
 };
+exports.Uindex = async (req, res) => {
+  try {
+    const { id } = req.params;  
+    const pets = await Pet.findOne({
+      where: { user_id:id }
+    });
+    res.status(200).send({ status: true, message: "success", data: pets });
+    console.log("cek id user",req.params);
+  } catch (err) {
+    console.log(err);
+  }
+};
