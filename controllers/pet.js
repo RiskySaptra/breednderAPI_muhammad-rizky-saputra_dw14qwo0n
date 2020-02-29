@@ -147,7 +147,7 @@ exports.show = async (req, res) => {
 exports.Uindex = async (req, res) => {
   try {
     const pets = await Pet.findOne({
-      where: { user_id: req.riski }
+      where: { user_id: req.user }
     });
     res.status(200).send({ status: true, message: "success", data: pets });
   } catch (err) {
