@@ -16,21 +16,19 @@ router.post("/login", login);
 router.post("/register", register);
 router.get("/autoauth", auth, autoAuth);
 // Users
-router.get("/users", UserController. index);
-router.get("/user/:id", UserController. show);
-router.put("/user/:id", auth,UserController. update);
-router.delete("/user/:id", auth,UserController. destroy);
+router.get("/users", UserController.index);
+router.get("/user/:id", UserController.show);
+router.put("/user/:id", auth, UserController.update);
+router.delete("/user/:id", auth, UserController.destroy);
 // Species
-router.post("/species",SpeciesController. store);
-router.get("/species",SpeciesController. show);
+router.post("/species", SpeciesController.store);
+router.get("/species", SpeciesController.show);
 // Pets
 router.get("/pets", PetController.index);
-router.get("/pets/user/:id", PetController.Uindex);
+router.get("/pets/user", auth, PetController.Uindex);
 router.get("/pet/:id", PetController.show);
 router.post("/pet", auth, PetController.store);
 router.put("/pet/:id", auth, PetController.update);
 router.delete("/pet/:id", auth, PetController.destroy);
-
-
 
 module.exports = router;

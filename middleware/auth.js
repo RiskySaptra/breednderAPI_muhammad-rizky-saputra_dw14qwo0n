@@ -11,10 +11,12 @@ exports.auth = async (req, res, next) => {
       throw new Error();
     }
     req.user = user.id;
-    // req.user - data.user_id;
+    // req.user - data.user
     req.token = token;
     next();
   } catch (err) {
-    res.status(401).send({ error: "Not authorized to access this resource" });
+    res
+      .status(401)
+      .send({ message: err, error: "Not authorized to access this resource" });
   }
 };

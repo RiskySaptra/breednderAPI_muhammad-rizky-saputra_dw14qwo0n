@@ -10,12 +10,12 @@ exports.index = async (req, res) => {
         {
           model: User,
           as: "user",
-          attributes: ["id","name", "address", "phone"]
+          attributes: ["id", "name", "address", "phone"]
         },
         {
           model: Species,
           as: "species",
-          attributes: ["id","name"]
+          attributes: ["id", "name"]
         }
       ],
       attributes: { exclude: ["user_id", "species_id"] }
@@ -146,12 +146,10 @@ exports.show = async (req, res) => {
 };
 exports.Uindex = async (req, res) => {
   try {
-    const { id } = req.params;  
     const pets = await Pet.findOne({
-      where: { user_id:id }
+      where: { user_id: req.riski }
     });
     res.status(200).send({ status: true, message: "success", data: pets });
-    console.log("cek id user",req.params);
   } catch (err) {
     console.log(err);
   }
